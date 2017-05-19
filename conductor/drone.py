@@ -10,8 +10,8 @@ class Drone :
         self.status = "free"
 
 
-    def registerMission(id,stationCoords, stockCoords, destinationCoords, state):
-        missionList.append([id,stationCoords, stockCoords, destinationCoords, state])
+    def registerMission(id,step1, step2, step3):
+        missionList.append([id,step1, step2, step3, -1])
 
     def moveTo(self,destination):
         position[0] = position[0] + speedMean * (destination[0] - position[0])/math.sqrt((destination[1] - position[1])^2 + (destination[0] - position[0])^2)
@@ -21,14 +21,18 @@ class Drone :
         i = 0
         for miss in missionList:
             if miss[0] == id:
+                # on passe le statut a 0 = en attente
                 missionList[i][4] = 0
             i = i + 1
-        stockPosition = missionList[i][2]
-        destinationPosition = missionList[i][3]
-        self.moveTo(stockPosition)
-        time.sleep(5)
-        self.moveTo(destinationPosition)
-        time.sleep(5)
+        i = i - 1
+
+        for j in range(1,3):
+            self.moveTo(missionList[i][j])
+            time.sleep(5)
+
+        # on passe le statut a effectuee
+        missionList[i][4] = 1
+
 
 
     def nextMissionId(self):
