@@ -10,7 +10,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Customer(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
@@ -23,7 +22,6 @@ class Customer(models.Model):
 
 
 class Droneposition(models.Model):
-    dronepos_id = models.AutoField(primary_key=True)  # Field name made lowercase.
     latitude = models.FloatField(blank=True, null=True)  # This field type is a guess.
     longitude = models.FloatField(blank=True, null=True)  # This field type is a guess.
     altitude = models.FloatField(blank=True, null=True)  # This field type is a guess.
@@ -40,7 +38,6 @@ class Droneposition(models.Model):
 
 
 class Drone(models.Model):
-    drone_id = models.AutoField(primary_key=True)
     status = models.CharField(max_length=255, blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     consumption = models.FloatField(blank=True, null=True)  # This field type is a guess.
@@ -62,7 +59,6 @@ class Drone(models.Model):
 
 
 class Stock(models.Model):
-    stock_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)  # This field type is a guess.
     longitude = models.FloatField(blank=True, null=True)  # This field type is a guess.
@@ -79,7 +75,6 @@ class Stock(models.Model):
 
 
 class Delivery(models.Model):
-    mission_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     destinationposlat = models.FloatField(db_column='destinationPosLat', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
     destinationposlon = models.FloatField(db_column='destinationPosLon', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
@@ -99,7 +94,6 @@ class Delivery(models.Model):
 
 
 class Packet(models.Model):
-    packet_id = models.AutoField(primary_key=True)
     status = models.CharField(max_length=255, blank=True, null=True)
     stock_id = models.IntegerField(blank=True, null=True)
     #stock_id = models.ForeignKey('Stock', models.DO_NOTHING, blank=True, null=True)
@@ -113,7 +107,6 @@ class Packet(models.Model):
         db_table = 'packet'
 
 class Station(models.Model):
-    id = models.AutoField(primary_key=True)
     long = models.FloatField(blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
 
@@ -130,7 +123,6 @@ class Station(models.Model):
 # The error was: list index out of range
 
 class Charginglog(models.Model):
-    charginglog_id = models.AutoField(primary_key=True)
     station_id = models.IntegerField(blank=True, null=True)
     drone_id = models.IntegerField(blank=True, null=True)
 
