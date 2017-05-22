@@ -81,17 +81,7 @@ DATABASES = {
     }
 }
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS' : { "init_command": "SET foreign_key_checks = 0;" },
-        'NAME': 'delivrone',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '192.168.0.14',
-        'PORT': '',
-    }
-}"""
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
