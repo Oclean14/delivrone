@@ -73,7 +73,7 @@ def bddCreation():
 
 
 def random2DCoords():
-    return [random.uniform(RAYON/2,LARGEUR-RAYON/2),random.uniform(RAYON/2,HAUTEUR-RAYON/2)]
+    return [random.uniform(RAYON/2, LARGEUR-RAYON/2), random.uniform(RAYON/2, HAUTEUR-RAYON/2)]
 
 
 def createDrones(number):
