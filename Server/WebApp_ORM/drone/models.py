@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+# install django-multiselectfield
 from multiselectfield import MultiSelectField
 
 from django.db import models
@@ -13,11 +14,21 @@ class Customer(models.Model):
         managed = True
         db_table = 'customer'
 
-STATUS_drone = ((1, 'En Repos'),
-          (2, 'En Mission'),
-          (3, 'En Recharge'),
-          (4, 'Détruit'),
-          (5, 'Disparu'))
+# Status du drone. En recopiant les l'attribut system_status de l'objet vehicule cree
+STATUS_drone = ((1, 'UNINIT'),
+          (2, 'BOOT'),
+          (3, 'CALIBRATING'),
+          (4, 'STANDBY'),
+          (5, 'ACTIVE'),
+		  (6, 'CRITICAL'),
+		  (7, 'EMERGENCY'),
+		  (8, 'POWEROFF'))
+
+# Etat de la livraison		  
+STATUS_delivery = ((1, 'NOT STARTED'),
+          (2, 'STARTED'),
+          (3, 'ABORTED'),
+          (4, 'FINISHED'))
 
 class Drone(models.Model):
     status = MultiSelectField(choices=STATUS_drone,
@@ -91,7 +102,8 @@ class Delivery(models.Model):
     drone_id = models.ForeignKey(Drone, on_delete=models.CASCADE, null= True)
     stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE, null= True)
     packet = models.ForeignKey(Packet, on_delete=models.CASCADE, null=True)
-
+    status = MultiSelectField(choices=STATUS_delivery, max_choices=1, null=True)
+	
     def __str__(self):
         return "\nTitre : {0}, Description : {1}, Drone : {2}, Stock : {3}, Produit : {4}".format(self.name, self.description, self.drone_id, self.stock_id, self.packet)
     class Meta:
