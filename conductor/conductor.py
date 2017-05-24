@@ -2,27 +2,8 @@ from tkinter import *
 import math, random
 import sqlite3
 
-# Fenetre
-LARGEUR = 480
-HAUTEUR = 320
+from components.mission import Mission
 
-# Drone
-RAYON = 5  # rayon des drones
-NUMBER_DRONE = 10
-
-# Station
-COTE = 5
-NUMBER_STATION = 5
-
-
-# direction initiale alatoire
-vitesse = random.uniform(1.8, 2) * 5
-angle = random.uniform(0, 2 * math.pi)
-DX = vitesse * math.cos(angle)
-DY = vitesse * math.sin(angle)
-
-conn = sqlite3.connect(':memory:')
-cursor = conn.cursor()
 def bddCreation():
     """
     CREATE TYPE droneStatus AS ENUM('busy','free','maintenance');
@@ -118,19 +99,42 @@ def deplacement():
     # mise  jour toutes les 50 ms
     Mafenetre.after(50, deplacement)
 
+"""
+    # Fenetre
+    LARGEUR = 480
+    HAUTEUR = 320
 
-# Cration de la fentre principale
-Mafenetre = Tk()
-Mafenetre.title("Animation Balle")
+    # Drone
+    RAYON = 5  # rayon des drones
+    NUMBER_DRONE = 10
 
-# Cration d'un widget Canvas
-Canevas = Canvas(Mafenetre, height=HAUTEUR, width=LARGEUR, bg='white')
-Canevas.pack(padx=15, pady=15)
-bddCreation()
-createDrones(5)
-# Cration d'un objet graphique
-Balle = Canevas.create_oval(X - RAYON, Y - RAYON, X + RAYON, Y + RAYON, width=1, fill='green')
+    # Station
+    COTE = 5
+    NUMBER_STATION = 5
 
-deplacement()
-Mafenetre.mainloop()
-conn.close()
+
+    # direction initiale alatoire
+    vitesse = random.uniform(1.8, 2) * 5
+    angle = random.uniform(0, 2 * math.pi)
+    DX = vitesse * math.cos(angle)
+    DY = vitesse * math.sin(angle)
+
+    conn = sqlite3.connect(':memory:')
+    cursor = conn.cursor()
+    # Cration de la fentre principale
+    Mafenetre = Tk()
+    Mafenetre.title("Animation Balle")
+
+    # Cration d'un widget Canvas
+    Canevas = Canvas(Mafenetre, height=HAUTEUR, width=LARGEUR, bg='white')
+    Canevas.pack(padx=15, pady=15)
+    bddCreation()
+    createDrones(5)
+    # Cration d'un objet graphique
+    Balle = Canevas.create_oval(X - RAYON, Y - RAYON, X + RAYON, Y + RAYON, width=1, fill='green')
+
+    deplacement()
+    Mafenetre.mainloop()
+    conn.close()
+"""
+missionMgr = Mission()
