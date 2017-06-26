@@ -1,9 +1,14 @@
 """Ce fichier permet de renseigner tous les parametres"""
 
+#Aerianspace
+
+aerianSpace = []
+
 #Drone
 
 numberDrone = 100
 averageSpeed = 30
+failureFrequency = 0.1 #panne/heure de vol/drone
 
 #Station
 
@@ -26,3 +31,14 @@ maxCycle = 300 # nombre de cycle de rechargement des batteries
 #Time
 startAt = "100416052000"
 oneSecond = 0.0001
+
+#Stock in Warehouse
+motorsNumber = 60
+motorPrice = 100 #euro
+propellersNumber = 100
+propellerPrice = 30
+
+stationList = []
+droneList = []
+WarehouseList = []
+

@@ -3,66 +3,39 @@
 
 from tkinter import *
 import math, random
+from Simulator.Drone import *
 
-LARGEUR = 480
-HAUTEUR = 320
-RAYON = 15  # rayon de la balle
+LARGEUR = 1000
+HAUTEUR = 500
+RAYON = 5  # rayon de la balle
+direction = [950,450,0]
+drone = Drone(1,[10,10,0])
+drone.setDirection(direction)
 
-# position initiale au milieu
-X = LARGEUR / 2
-Y = HAUTEUR / 2
+def motion():
 
-# direction initiale aléatoire
-vitesse = random.uniform(1.8, 2) * 5
-angle = random.uniform(0, 2 * math.pi)
-DX = vitesse * math.cos(angle)
-DY = vitesse * math.sin(angle)
-
-
-def deplacement():
-    """ Déplacement de la balle """
-    global X, Y, DX, DY, RAYON, LARGEUR, HAUTEUR
-
-    # rebond à droite
-    if X + RAYON + DX > LARGEUR:
-        X = 2 * (LARGEUR - RAYON) - X
-        DX = -DX
-
-    # rebond à gauche
-    if X - RAYON + DX < 0:
-        X = 2 * RAYON - X
-        DX = -DX
-
-    # rebond en bas
-    if Y + RAYON + DY > HAUTEUR:
-        Y = 2 * (HAUTEUR - RAYON) - Y
-        DY = -DY
-
-    # rebond en haut
-    if Y - RAYON + DY < 0:
-        Y = 2 * RAYON - Y
-        DY = -DY
-
-    X = X + DX
-    Y = Y + DY
-
+    if not(drone.isOnTopOfDirection()):
+        drone.move()
+    else:
+        return
     # affichage
-    Canevas.coords(Balle, X - RAYON, Y - RAYON, X + RAYON, Y + RAYON)
+    Canevas.coords(Balle, drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON)
 
     # mise à jour toutes les 50 ms
-    Mafenetre.after(50, deplacement)
-
+    Mafenetre.after(50, motion)
 
 # Création de la fenêtre principale
 Mafenetre = Tk()
-Mafenetre.title("Animation Balle")
+Mafenetre.title("Delivrone")
 
 # Création d'un widget Canvas
 Canevas = Canvas(Mafenetre, height=HAUTEUR, width=LARGEUR, bg='white')
 Canevas.pack(padx=5, pady=5)
 
 # Création d'un objet graphique
-Balle = Canevas.create_oval(X - RAYON, Y - RAYON, X + RAYON, Y + RAYON, width=1, fill='green')
+Balle = Canevas.create_oval(drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON, width=1, fill='green')
 
-deplacement()
+destinationDisplay = Canevas.create_oval(direction[0] - RAYON, direction[1]  - RAYON, direction[0]  + RAYON, direction[1] + RAYON, width=1, fill='blue')
+
+motion()
 Mafenetre.mainloop()
