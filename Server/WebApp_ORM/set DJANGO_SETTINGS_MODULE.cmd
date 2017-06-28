@@ -1,0 +1,1 @@
+set DJANGO_SETTINGS_MODULE='webapp.settings'
