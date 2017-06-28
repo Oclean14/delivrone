@@ -12,17 +12,6 @@ direction = [950,450,0]
 drone = Drone(1,[10,10,0])
 drone.setDirection(direction)
 
-def motion():
-
-    if not(drone.isOnTopOfDirection()):
-        drone.move()
-    else:
-        return
-    # affichage
-    Canevas.coords(Balle, drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON)
-
-    # mise à jour toutes les 50 ms
-    Mafenetre.after(50, motion)
 
 # Création de la fenêtre principale
 Mafenetre = Tk()
@@ -36,6 +25,29 @@ Canevas.pack(padx=5, pady=5)
 Balle = Canevas.create_oval(drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON, width=1, fill='green')
 
 destinationDisplay = Canevas.create_oval(direction[0] - RAYON, direction[1]  - RAYON, direction[0]  + RAYON, direction[1] + RAYON, width=1, fill='blue')
+
+i=0
+
+def motion():
+    global i
+    print(i)
+
+    if not(drone.isOnTopOfDirection() and i == 0):
+        print(i)
+        i = 1
+
+        drone.start()
+
+    else:
+        return
+    print("au suivant")
+    # affichage
+    Canevas.coords(Balle, drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON)
+
+    # mise à jour toutes les 50 ms
+    Mafenetre.after(50, motion)
+
+
 
 motion()
 Mafenetre.mainloop()
