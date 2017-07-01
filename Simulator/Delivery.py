@@ -1,7 +1,7 @@
 import sqlite3
 
 class Delivery:
-
+	
     def getDeliveries(self):
         conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
         cursor = conn.cursor()

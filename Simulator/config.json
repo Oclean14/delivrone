@@ -1,0 +1,330 @@
+{
+	"drones": [
+		{
+			"name": "joker",
+			"homeLocation" : { "x": 10, "y":10 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.1,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+		},
+		{
+			"name": "toto",
+			"homeLocation" : { "x": 200, "y":200 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.2,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "titi",
+			"homeLocation" : { "x": 600, "y": 10 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.5,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "tata",
+			"homeLocation" : {"x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.4,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "salameche",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.15,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "carapuce",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.2,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "bulbizarre",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.12,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "aeronef",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.3,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "boeing",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.1,
+			"averageSpeed": 2,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		},
+		{
+			"name": "pegasus",
+			"homeLocation" : { "x": 10, "y":20 },
+			"position": { "x": 0, "y": 0 },
+			"failureFrequency": 0.1,
+			"averageSpeed": 5,
+			"battery": {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+			}
+		}
+	],
+	"stations" : [
+		{
+			"name": "bamako",
+			"position": { "x": 20, "y": 20 },
+			"chargedBatteries": [
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+			],
+			"chargingBatteries":[
+				{
+						"lvl": 20,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 10,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 15,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 5,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 0,
+						"consumption": 3,
+						"maxCycle": 300
+				}
+			],
+			"storageCapacity": 10,
+			"chargingTime" : 10,
+			"chargingSlots": 5,
+			"changeDuration": 1,
+			"failureFrequency": 0.1
+		},
+		
+		{
+			"name": "La paz",
+			"position": { "x": 200, "y": 200 },
+			"chargedBatteries": [
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+			],
+			"chargingBatteries":[
+				{
+						"lvl": 20,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 10,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 15,
+						"consumption": 3,
+						"maxCycle": 300
+				}
+			],
+			"storageCapacity": 10,
+			"chargingTime" : 10,
+			"chargingSlots": 5,
+			"changeDuration": 1,
+			"failureFrequency": 0.1
+		},
+		
+		{
+			"name": "Toronto",
+			"position": { "x": 100, "y": 50 },
+			"chargedBatteries": [
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				},
+			    {
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+			],
+			"chargingBatteries":[
+				{
+						"lvl": 20,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 10,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 15,
+						"consumption": 3,
+						"maxCycle": 300
+				}
+			],
+			"storageCapacity": 10,
+			"chargingTime" : 2,
+			"chargingSlots": 5,
+			"changeDuration": 1,
+			"failureFrequency": 0.1
+		},
+		
+		{
+			"name": "New york",
+			"position": { "x": 200, "y": 600 },
+			"chargedBatteries": [
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+			],
+			"chargingBatteries":[
+				{
+						"lvl": 5,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 2,
+						"consumption": 3,
+						"maxCycle": 300
+				}
+			],
+			"storageCapacity": 10,
+			"chargingTime" : 10,
+			"chargingSlots": 5,
+			"changeDuration": 1,
+			"failureFrequency": 0.1
+		},
+		
+		{
+			"name": "Paris",
+			"position": { "x": 300, "y":100 },
+			"chargedBatteries": [
+				{
+					"lvl": 100,
+					"consumption": 3,
+					"maxCycle": 300
+				}
+			],
+			"chargingBatteries":[
+				{
+						"lvl": 5,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 2,
+						"consumption": 3,
+						"maxCycle": 300
+				},
+				{
+						"lvl": 1,
+						"consumption": 3,
+						"maxCycle": 300
+				}
+			],
+			"storageCapacity": 10,
+			"chargingTime" : 3,
+			"chargingSlots": 5,
+			"changeDuration": 5,
+			"failureFrequency": 0.1
+		}
+	]
+}

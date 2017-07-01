@@ -1,73 +1,80 @@
 import math, random
 import time
-from Simulator.Battery import *
 from threading import Thread
-
-position = []
-missionList = []
-speedMean = 8 #km/h
-battery = Battery
-direction = []
-startingPosition = position
-deliveryList = []
 
 class Drone(Thread) :
 
-    def __init__(self, id, defaultPosition):
-        Thread.__init__(self)
-        self.id = id
-        self.position = defaultPosition
-        self.startingPosition = defaultPosition
-        self.status = "free"
+	"""
+		ctor
+	"""
+	def __init__(self, name, homeLocation, position, failureFrequency, averageSpeed, battery):
+		Thread.__init__(self)
+		self.name = name
+		self.homeLocation = homeLocation 
+		self.position = position
+		self.status = "free"
+		self.failureFrequency = failureFrequency
+		self.averageSpeed = averageSpeed
+		self.battery = battery
+	
+	##
+	#	Toute la logique du drone
+	#	- Perte de batterie
+	#	- Deplacement
+	def run(self):
+		while not(self.isOnTopOfDirection()):
+			print("I'm at", self.position, " and I'm going to ", self.direction)
 
-    def square(self,x):
-        return x * x
+			# distance = math.sqrt(self.square(self.direction[0] - self.startingPosition[0]) + self.square(self.direction[1] - self.startingPosition[1]))
+			# speedVector = [(speedMean * (self.direction[0] - self.startingPosition[0])/distance), (speedMean * (self.direction[1] - self.startingPosition[1])/distance)]
+			# self.position[0] = self.position[0] + speedVector[0]
+			# self.position[1] = self.position[1] + speedVector[1]
+			# time.sleep(1)
 
-    def run(self):
+	# TODO: ajouter le commentaire de la fonction setDirection
+	def setDirection(self, direction):	
+		self.direction = direction
 
-        while not(self.isOnTopOfDirection()):
-            print("I'm at", self.position, " and I'm going to ", self.direction)
-            #if(self.status == "stopped"):
-              #  self.startingPosition = position
+	##
+	#	Ajouter une nouvelle mission a effectuer
+	def addDelivery(self,delivery):
+		self.deliveryList.append(delivery)
 
-            distance = math.sqrt(self.square(self.direction[0] - self.startingPosition[0]) + self.square(self.direction[1] - self.startingPosition[1]))
-            speedVector = [(speedMean * (self.direction[0] - self.startingPosition[0])/distance), (speedMean * (self.direction[1] - self.startingPosition[1])/distance)]
-            self.position[0] = self.position[0] + speedVector[0]
-            self.position[1] = self.position[1] + speedVector[1]
-            #position[] = position[]
-            print("I'm at",self.position," and I'm going to ",self.direction)
-            time.sleep(1)
+	#TODO: ajouter le commentaire de la fonction executeDelivery
+	def executeDelivery(self, delivery):
+		for pos in delivery:
+			i = 1
+		
+	##
+	#	Recupere le niveau de charge du drone
+	def getChargeLevel(self):
+		return self.battery.lvl
 
-    def setDirection(self, direction):
-        self.direction = direction
+	##
+	#	Recupere l'etat du drone
+	def getStatus(self):
+		return self.status
 
-    def addDelivery(self,delivery):
-        self.deliveryList.append(delivery)
+	##
+	#	Renseigne l'etat du drone
+	def setStatus(self, status):
+		self.status = status
+	##	
+	# Recupere la direction du drone
+	def getDirection(self):
+		return self.direction
+	##	
+	# Suit les points fournit par un eventuelle calculateur de vol
+	def followPoints(self):
+		return
 
-    def executeDelivery(self, delivery):
-        for pos in delivery:
-            i = 1
-
-
-    def getChargeLevel(self):
-        a=0
-
-    def getStatus(self):
-        return
-    def setStatus(self):
-        return
-    def getDirection(self):
-        return self.direction
-
-    def followPoints(self):#suit les points fournit par un éventuelle calculateur de vol
-        a = 0
-
-    def isOnTopOfDirection(self):
-        distance = math.sqrt(self.square(self.direction[0] - self.position[0]) + self.square(self.direction[1] - self.position[1]))
-        print(distance)
-        if(distance > 3):
-            return False
-        else:
-            return True
+	# TODO: ajouter le commentaire de la fonction
+	def isOnTopOfDirection(self):
+		distance = math.sqrt(self.square(self.direction[0] - self.position[0]) + self.square(self.direction[1] - self.position[1]))
+		print(distance)
+		if(distance > 3):
+			return False
+		else:
+			return True
 
 

@@ -1,0 +1,5 @@
+
+class WorldState:
+	drones = []
+	stations = []
+		
