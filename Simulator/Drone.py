@@ -6,7 +6,18 @@ from Battery import Battery
 #from Simulator import main
 
 class Drone(Thread) :
-
+	
+	drone_status = {
+		0 : "free in warehouse",
+		1 : "flying, executing mission",
+		2 : "Taking packet in warehouse",
+		3 : "Waiting for battery changement",
+		4 : "Changing battery",
+		5 : "Free flying",
+		6 : "In maintenance",
+		7 : "Delivering"
+	}
+	
 	"""
 		ctor
 	
@@ -25,7 +36,7 @@ class Drone(Thread) :
 		Drone.__id += 1
 		self.id = Drone.__id
 		self.position = position
-		self.status = "flying"
+		self.status = 1
 		self.startingPosition = position
 		self.averageSpeed = averageSpeed
 		self.battery = Battery(300, 100, 2)
@@ -34,16 +45,15 @@ class Drone(Thread) :
 	#	- Perte de batterie
 	#	- Deplacement
 	def run(self):
-		while not(self.isOnTopOfDirection()) and self.status == "flying":
+		while not(self.isOnTopOfDirection()) and self.status == 1:
 			print("I'm at", self.position, " and I'm going to ", self.direction, " i have battery level of ", self.battery.chargePercentage)
-
 			distance = math.sqrt(self.square(self.direction[0] - self.startingPosition[0]) + self.square(self.direction[1] - self.startingPosition[1]))
 			speedVector = [(self.averageSpeed * (self.direction[0] - self.startingPosition[0])/distance), (self.averageSpeed * (self.direction[1] - self.startingPosition[1])/distance)]
 			self.position[0] = self.position[0] + speedVector[0]
 			self.position[1] = self.position[1] + speedVector[1]
 			self.battery.use();
 			if self.battery.chargePercentage <= 0:
-				self.status = "battery_empty"
+				self.status = "noenergy"
 			time.sleep(0.1)
 		
 
@@ -96,4 +106,6 @@ class Drone(Thread) :
 		else:
 			return True
 
-
+	def subscribeToStation(self, station):
+		self.status = 4
+		station.droneQueue.append(self)
