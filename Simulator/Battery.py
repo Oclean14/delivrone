@@ -1,20 +1,20 @@
 import math, random
 import time
-from Simulator.main import *
-id = 0
-chargePercentage = 100
-chargingCycleDone = 0
-maxCycle = 0
 
 class Battery:
-    def __init__(self, id, maxCycle):
-        self.id = id
-        self.maxCycle = maxCycle
+	__id = 0
+	def __init__(self, maxCycle, chargePercentage, consumption):
+		Battery.__id += 1
+		self.id = Battery.__id
+		self.maxCycle = maxCycle
+		self.chargePercentage = chargePercentage
+		self.consumption = consumption
+		
+	def use(self):
+		self.chargePercentage = self.chargePercentage - self.consumption
 
-    def use(self):
-        self.chargePercentage = chargePercentage - consumption
-
-    def getChargePercentage(self):
-        return self.chargePercentage
-    def charge(self):
-        a=0
+	def getChargePercentage(self):
+		return self.chargePercentage
+		
+	def charge(self):
+		a=0
