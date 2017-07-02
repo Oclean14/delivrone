@@ -1,10 +1,23 @@
+# -*- coding: utf-8 -*-
 import math, random
 import time
 from threading import Thread
-from Simulator import main
+from Battery import Battery
+#from Simulator import main
 
 class Drone(Thread) :
-
+	
+	drone_status = {
+		0 : "free in warehouse",
+		1 : "flying, executing mission",
+		2 : "Taking packet in warehouse",
+		3 : "Waiting for battery changement",
+		4 : "Changing battery",
+		5 : "Free flying",
+		6 : "In maintenance",
+		7 : "Delivering"
+	}
+	
 	"""
 		ctor
 	
@@ -17,25 +30,32 @@ class Drone(Thread) :
 		self.averageSpeed = averageSpeed
 		self.battery = battery
 	"""
-	def __init__(self,id,  position,):
+	__id = 0
+	def __init__(self, position, averageSpeed):
 		Thread.__init__(self)
-		self.id = id
+		Drone.__id += 1
+		self.id = Drone.__id
 		self.position = position
-		self.status = "free"
+		self.status = 1
 		self.startingPosition = position
-
+		self.averageSpeed = averageSpeed
+		self.battery = Battery(300, 100, 2)
+		
 	#	Toute la logique du drone
 	#	- Perte de batterie
 	#	- Deplacement
 	def run(self):
-		while not(self.isOnTopOfDirection()):
-			print("I'm at", self.position, " and I'm going to ", self.direction)
-
+		while not(self.isOnTopOfDirection()) and self.status == 1:
+			print("I'm at", self.position, " and I'm going to ", self.direction, " i have battery level of ", self.battery.chargePercentage)
 			distance = math.sqrt(self.square(self.direction[0] - self.startingPosition[0]) + self.square(self.direction[1] - self.startingPosition[1]))
-			speedVector = [(main.averageSpeed * (self.direction[0] - self.startingPosition[0])/distance), (main.averageSpeed * (self.direction[1] - self.startingPosition[1])/distance)]
+			speedVector = [(self.averageSpeed * (self.direction[0] - self.startingPosition[0])/distance), (self.averageSpeed * (self.direction[1] - self.startingPosition[1])/distance)]
 			self.position[0] = self.position[0] + speedVector[0]
 			self.position[1] = self.position[1] + speedVector[1]
+			self.battery.use();
+			if self.battery.chargePercentage <= 0:
+				self.status = "noenergy"
 			time.sleep(0.1)
+		
 
 	# TODO: ajouter le commentaire de la fonction setDirection
 	def setDirection(self, direction):	
@@ -86,4 +106,6 @@ class Drone(Thread) :
 		else:
 			return True
 
-
+	def subscribeToStation(self, station):
+		self.status = 4
+		station.droneQueue.append(self)

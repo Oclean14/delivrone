@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 # script animation_balle.py
 # (C) Fabrice Sincère
 
 from tkinter import *
 import math, random
-from Simulator.Drone import *
-
+#from Simulator.Drone import *
+from Drone import Drone
 LARGEUR = 1000
 HAUTEUR = 500
 RAYON = 5  # rayon de la balle
 direction = [950,450,0]
-drone = Drone(1,[10,10,0])
+drone = Drone([10,10,0], 5)
 drone.setDirection(direction)
 
 
