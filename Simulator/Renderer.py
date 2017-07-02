@@ -27,19 +27,19 @@ Balle = Canevas.create_oval(drone.position[0] - RAYON, drone.position[1]  - RAYO
 destinationDisplay = Canevas.create_oval(direction[0] - RAYON, direction[1]  - RAYON, direction[0]  + RAYON, direction[1] + RAYON, width=1, fill='blue')
 
 i=0
+if not (drone.isOnTopOfDirection() and i == 0):
+    print(i)
+    i = 1
+
+    drone.start()
+
 
 def motion():
     global i
     print(i)
 
-    if not(drone.isOnTopOfDirection() and i == 0):
-        print(i)
-        i = 1
 
-        drone.start()
 
-    else:
-        return
     print("au suivant")
     # affichage
     Canevas.coords(Balle, drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON)

@@ -8,7 +8,7 @@ aerianSpace = []
 #Drone
 
 numberDrone = 100
-averageSpeed = 30
+averageSpeed = 10
 failureFrequency = 0.1 #panne/heure de vol/drone
 
 #Station
