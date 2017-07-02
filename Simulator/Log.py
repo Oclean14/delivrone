@@ -13,19 +13,19 @@ class Log:
 	@staticmethod
 	def debug(tag, msg):
 		if Log.flags & Log.LOG_DEBUG_ENABLE:
-			print strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ DEBUG ][ ", tag, " ] ", msg
+			print (strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ DEBUG ][ ", tag, " ] ", msg)
 
 	@staticmethod
 	def info(tag, msg):
 		if Log.flags & Log.LOG_INFO_ENABLE:
-			print strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ INFO ][ ", tag, " ] ", msg 
+			print (strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ INFO ][ ", tag, " ] ", msg )
 
 	@staticmethod
 	def error(tag, msg):
 		if Log.flags & Log.LOG_ERROR_ENABLE:
-			print strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ ERROR ][ ", tag, " ] ", msg
+			print (strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ ERROR ][ ", tag, " ] ", msg)
 
 	@staticmethod
 	def warning(tag,msg):
 		if Log.flags & Log.LOG_WARNING_ENABLE:
-			print strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ WARNING ][ ", tag, " ] ", msg
+			print(strftime("%Y-%m-%d %H:%M:%S", gmtime()), "[ WARNING ][ ", tag, " ] ", msg)
