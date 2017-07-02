@@ -86,7 +86,7 @@ WarehouseList = []
 # stationList = []
 # droneList = []
 # WarehouseList = []
-
+"""
 import json
 from pprint import pprint
 from Log import Log as log
@@ -131,4 +131,4 @@ for station in stations:
     el = Station(station["name"], {'x': station["position"]["x"], 'y': station["position"]["y"]}, chargingBatteries,
                  chargedBatteries, station["storageCapacity"], station["chargingTime"], station["chargingSlots"],
                  station["changeDuration"], station["failureFrequency"])
-WorldState.stations.append(el)
+WorldState.stations.append(el)"""
