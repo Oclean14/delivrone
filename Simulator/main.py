@@ -1,6 +1,7 @@
 """Ce fichier permet de renseigner tous les parametres"""
-from Simulator import Warehouse
-
+from Drone import Drone
+from Battery import Battery
+from Log import Log
 #Aerianspace
 
 aerianSpace = []
