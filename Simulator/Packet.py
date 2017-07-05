@@ -1,4 +1,6 @@
 import sqlite3
+import random
+
 
 class Packet() :
 
@@ -44,6 +46,14 @@ class Packet() :
         conn.commit()
         cursor.close()
         print("Operation done successfully");
+
+    #It will create random paquet in random existing station
+    @classmethod
+    def saveRandom(self, number):
+        for x in range(0, number):
+            k = random.randint(2,9)
+            paquet = Packet("packet" + str(x * random.random()), "Waiting", "3", str(k))
+            paquet.save()
 
     @classmethod
     def UpdateStatusById (self, id, status):

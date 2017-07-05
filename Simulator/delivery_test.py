@@ -1,12 +1,14 @@
 from Simulator.Packet import *
 from Simulator.Delivery import *
 from Simulator.Drone import *
+from Simulator.Scheduler import *
+from Simulator.Packet import *
 
-global drone_id;
+#global drone_id;
 #packet = Packet("TOTO", "Waiting", "15","2");
 #packet.save();
 
-packets = Packet.FindIdByStatus("Waiting");
+"""packets = Packet.FindIdByStatus("Waiting");
 print(packets)
 packetList = []
 i = 6;
@@ -28,4 +30,12 @@ for packet in packets:
  print("VOILA LE DRONE ID " + drone_id)
  mission = Delivery("delivery" + j, "55", drone_id, "2", str(packet[0]),"NOT STARTED");
  mission.save()
- drone = Drone.UpdateStatusByID(drone_id, "ACTIVE")
+ drone = Drone.UpdateStatusByID(drone_id, "ACTIVE")"""
+
+while (True) :
+    packet = Packet.saveRandom(20)
+    left_packet = Scheduler.randomAssignMission(1);
+    print(left_packet)
+
+#drone = Drone.FindIdByStatus("POWEROFF")
+#print(str(len(drone)))
