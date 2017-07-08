@@ -1,5 +1,5 @@
 """Ce fichier permet de renseigner tous les parametres"""
-from Drone import Drone
+from drone import Drone
 from Battery import Battery
 from Log import Log
 #Aerianspace
@@ -87,6 +87,7 @@ WarehouseList = []
 # stationList = []
 # droneList = []
 # WarehouseList = []
+
 """
 import json
 from pprint import pprint
@@ -133,3 +134,9 @@ for station in stations:
                  chargedBatteries, station["storageCapacity"], station["chargingTime"], station["chargingSlots"],
                  station["changeDuration"], station["failureFrequency"])
 WorldState.stations.append(el)"""
+
+drone = Drone(5, (10,20), (10,20),0, 0.2, 1.0, Battery(300,100,3))
+drone.start()
+drone.takeoff(10, 1)
+drone.goto((200,100))
+drone.land(1)

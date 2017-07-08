@@ -1,6 +1,7 @@
 import unittest
 from Drone import Drone
 from Battery import Battery
+
 class DroneTestMethods(unittest.TestCase):
 
     def test_start_stop(self):
@@ -9,6 +10,6 @@ class DroneTestMethods(unittest.TestCase):
         self.assertEqual(drone.start(), -1)
         self.assertEqual(drone.stop(), 0)
         self.assertEqual(drone.stop(), -1)
-        
+
 if __name__ == '__main__':
     unittest.main()

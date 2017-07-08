@@ -4,9 +4,12 @@ from threading import Thread
 from Battery import Battery
 from drone_state import DroneState
 from Log import Log as l
-from threading import Thread
+from threading import Thread, Lock
+from utils import *
+
 #from Simulator import main
 l.flags = l.LOG_ALL_ENABLE
+mutex = Lock()
 
 class Drone:
 
@@ -15,13 +18,14 @@ class Drone:
 	"""
 		ctor
 	"""
-	def __init__(self, droneId = -1, homeLocation = (0,0), position = (0,0,0), failureFrequency = 0, velocity = (0,0), battery = None):
+	def __init__(self, droneId = -1, homeLocation = (0,0), position = (0,0), altitude= 0, failureFrequency = 0, velocity = 1, battery = None):
 		self.id = droneId
 		self.homeLocation = homeLocation
 		self.position = position
 		self.state = DroneState.ON_LAND | DroneState.OFF
 		self.failureFrequency = failureFrequency
 		self.battery = battery
+		self.altitude = altitude
 		self.velocity = velocity
 		self.packet = None
 		self.deliveryList = []
@@ -34,10 +38,15 @@ class Drone:
 				if self.battery.chargePercentage <= 0:
 					if self.state & DroneState.IN_AIR:
 						l.error(Drone.TAG, "WARNING CRASH !!!")
+						#mutex.acquire()
 						self.state = DroneState.OUT_OF_ORDER | DroneState.ON_LAND
+						#mutex.release()
 					else:
 						l.info(Drone.TAG, "WARNING NO BATTERY")
+						#mutex.acquire()
 						self.state = DroneState.ON_LAND | DroneState.OFF
+						#mutex.release()
+					break
 				sleep(1)
 
 	def start(self):
@@ -74,14 +83,23 @@ class Drone:
 
 
 	def land(self, speed):
+		if self.altitude <= 0:
+			l.error(Drone.TAG, "The drone is already on the land")
+			return -1
+
 		if self.state & DroneState.IN_AIR and self.state & DroneState.RUNNING:
 			self.state = DroneState.LANDING |  DroneState.RUNNING | DroneState.IN_AIR
-			while self.position[2] > 0:
-				self.position = (self.position[0], self.position[1], self.position[2] - speed)
-				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " landing altitude = " + str(self.position[2]))
+			while self.altitude > 0 and self.state & DroneState.RUNNING:
+				self.altitude = self.altitude - speed
+				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " landing altitude = " + str(self.altitude))
 				sleep(1)
-			self.position = (self.position[0], self.position[1], 0)
-			self.state = DroneState.ON_LAND | DroneState.RUNNING | DroneState.IDLE
+
+			if self.altitude > 0:
+				l.error(Drone.TAG, "NO ENERGY CRASHING")
+				return -1
+			else:
+				self.altitude = 0
+				self.state = DroneState.ON_LAND | DroneState.RUNNING | DroneState.IDLE
 			return 0
 		elif self.state & DroneState.RUNNING:
 			l.error(Drone.TAG, "The drone is not in the air impossile to land")
@@ -93,13 +111,22 @@ class Drone:
 
 	def takeoff(self, altitude, speed):
 		if self.state & DroneState.ON_LAND and self.state & DroneState.RUNNING:
-			self.state = DroneState.TAKE_OFF |  DroneState.RUNNING
-			while self.position[2] < altitude:
-				self.position = (self.position[0], self.position[1], self.position[2] + speed)
-				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " taking off altitude = " + str(self.position[2]))
+			if self.altitude > altitude:
+				l.error(Drone.TAG, "Impossible to take off to this altitude")
+				return -1
+			self.state = DroneState.TAKE_OFF |  DroneState.RUNNING | DroneState.IN_AIR
+			while self.altitude < altitude and self.state & DroneState.RUNNING:
+				self.altitude = self.altitude + speed
+				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " taking off altitude = " + str(self.altitude))
 				sleep(1)
-			self.position = (self.position[0], self.position[1], altitude)
-			self.state = DroneState.IN_AIR | DroneState.IDLE | DroneState.RUNNING
+
+			if self.altitude < altitude:
+				l.error(Drone.TAG, "NO ENERGY CRASHING")
+				return -1
+			else:
+				self.altitude = altitude
+				self.state = DroneState.IN_AIR | DroneState.IDLE | DroneState.RUNNING
+
 			return 0
 		elif self.state & DroneState.RUNNING:
 			l.error(Drone.TAG, "The drone is not on the land impossile to takeoff")
@@ -110,7 +137,30 @@ class Drone:
 
 	#TODO: implement the goto method
 	def goto(self, destPoint):
-		return
+		l.info(Drone.TAG, "state " + str(self.state) )
+		if self.state & DroneState.RUNNING and self.state & DroneState.IN_AIR:
+			self.state = DroneState.FLYING | DroneState.RUNNING | DroneState.IN_AIR
+			startPos = self.position
+			distance = dist(self.position, destPoint)
+			elapsed = 0.01
+			l.debug(Drone.TAG, "Distance: " + str(distance))
+			vecDir = vec2d_normalize(vec2d_sub(destPoint, self.position))
+			while(dist(startPos, self.position) < distance and self.state & DroneState.RUNNING):
+				vecDir = vec2d_multiply_scalar(vecDir, self.velocity)
+				#vecDir = vec2d_multiply_scalar(vecDir, elapsed)
+				l.info(Drone.TAG, " direction vect : " + str(vecDir))
+				self.position = vec2d_add(vecDir, self.position)
+				l.info(Drone.TAG, " drone position : " + str(self.position))
+				sleep(1)
+			if dist(startPos, self.position) < distance:
+				l.error(Drone.TAG, "NO ENERGY CRASHING")
+				return -1
+			else:
+				self.position = destPoint
+				self.state = DroneState.IN_AIR | DroneState.IDLE | DroneState.RUNNING
+
+		else:
+			l.error(Drone.TAG, "Please takeoff after go to a point")
 
 	def removePacketFromWarehouse(self, landingSpeed, takeoffSpeed, packet):
 		# land to retrieve the packe
