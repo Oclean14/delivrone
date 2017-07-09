@@ -135,8 +135,7 @@ for station in stations:
                  station["changeDuration"], station["failureFrequency"])
 WorldState.stations.append(el)"""
 
-drone = Drone(5, (10,20), (10,20),0, 0.2, 1.0, Battery(300,100,3))
+drone = Drone(5, (10,20), (0,0),0, 0.2, 100.0, Battery(300,100,3))
 drone.start()
 drone.takeoff(10, 1)
-drone.goto((200,100))
-drone.land(1)
+drone.goto((-100,-60))

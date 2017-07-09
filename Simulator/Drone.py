@@ -9,7 +9,6 @@ from utils import *
 
 #from Simulator import main
 l.flags = l.LOG_ALL_ENABLE
-mutex = Lock()
 
 class Drone:
 
@@ -29,32 +28,30 @@ class Drone:
 		self.velocity = velocity
 		self.packet = None
 		self.deliveryList = []
+		thread = Thread(target=self.consumeBattery, args=())
+		thread.daemon = True                            # Daemonize thread
+		thread.start()
 
+#battery consumption
 	def consumeBattery(self):
-		while self.state & DroneState.RUNNING:
+		while True:
+			if self.state & DroneState.RUNNING:
 				l.info(Drone.TAG, "Battery consumption lvl: " + str(self.battery.chargePercentage))
 				self.battery.use()
 				# percentage 0 attery
 				if self.battery.chargePercentage <= 0:
 					if self.state & DroneState.IN_AIR:
 						l.error(Drone.TAG, "WARNING CRASH !!!")
-						#mutex.acquire()
 						self.state = DroneState.OUT_OF_ORDER | DroneState.ON_LAND
-						#mutex.release()
 					else:
 						l.info(Drone.TAG, "WARNING NO BATTERY")
-						#mutex.acquire()
 						self.state = DroneState.ON_LAND | DroneState.OFF
-						#mutex.release()
 					break
-				sleep(1)
+			sleep(1)
 
 	def start(self):
 		if self.battery != None and self.state & DroneState.OFF and self.state & DroneState.OUT_OF_ORDER == 0:
 			self.state = DroneState.IDLE | DroneState.RUNNING | DroneState.ON_LAND
-			consumeBatteryTh = Thread(target = self.consumeBattery)
-			consumeBatteryTh.setDaemon(True)
-			consumeBatteryTh.start()
 			return 0
 		elif self.battery != None and self.state & DroneState.OUT_OF_ORDER == 0:
 			l.info(Drone.TAG, "The drone is already started")
@@ -137,7 +134,6 @@ class Drone:
 
 	#TODO: implement the goto method
 	def goto(self, destPoint):
-		l.info(Drone.TAG, "state " + str(self.state) )
 		if self.state & DroneState.RUNNING and self.state & DroneState.IN_AIR:
 			self.state = DroneState.FLYING | DroneState.RUNNING | DroneState.IN_AIR
 			startPos = self.position
@@ -145,20 +141,20 @@ class Drone:
 			elapsed = 0.01
 			l.debug(Drone.TAG, "Distance: " + str(distance))
 			vecDir = vec2d_normalize(vec2d_sub(destPoint, self.position))
+			vecDir = vec2d_multiply_scalar(vecDir, self.velocity)
+			vecDir = vec2d_multiply_scalar(vecDir, elapsed)
+
 			while(dist(startPos, self.position) < distance and self.state & DroneState.RUNNING):
-				vecDir = vec2d_multiply_scalar(vecDir, self.velocity)
-				#vecDir = vec2d_multiply_scalar(vecDir, elapsed)
 				l.info(Drone.TAG, " direction vect : " + str(vecDir))
 				self.position = vec2d_add(vecDir, self.position)
 				l.info(Drone.TAG, " drone position : " + str(self.position))
-				sleep(1)
+				
 			if dist(startPos, self.position) < distance:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
 				return -1
 			else:
 				self.position = destPoint
 				self.state = DroneState.IN_AIR | DroneState.IDLE | DroneState.RUNNING
-
 		else:
 			l.error(Drone.TAG, "Please takeoff after go to a point")
 
