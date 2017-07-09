@@ -81,10 +81,13 @@ class Base_SubmitButton(object):
                 continue
 
             form_data[field_name] = field_value
-
+            form_data["WarehouseList"] = re.sub(r"[\[\]]", "", str(CoordonneesDS))
+            form_data["stationList"] = re.sub(r"[\[\]]", "", str(CoordonneesDS))
+		
         form_action(form_data)
 
-        fichier = open("data.json", "a")
+	# Creating the json
+        fichier = open("data.json", "w")
         fichier.write(str(form_data))
         fichier.close()
 
@@ -118,100 +121,89 @@ class Submit_TButton(ttk.Button, Base_SubmitButton):
 
 if __name__== "__main__":
     try:
-        from Tkinter import Frame, Entry, Radiobutton, Checkbutton, Text, Listbox, Tk, Label, StringVar
+        from Tkinter import *
         import tkMessageBox as messagebox
         from ttk import Combobox
         from Tkconstants import *
     except ImportError:
-        from tkinter import Frame, Entry, Radiobutton, Checkbutton, Text, Listbox, Tk, Label, messagebox, StringVar
+        from tkinter import *
         from tkinter.ttk import Combobox
         from tkinter.constants import *
 
     import pprint
+    import re
 
     def myField(form, myinput, nbRow):
-	Label(form, text=myinput).grid(row=nbRow,column=0, sticky=E, pady=(8,0))
+	Label(form,text=myinput).grid(row=nbRow,column=0,sticky=E,pady=(8,0))
 	entry = Entry(form)
         entry.fieldname = myinput
-        entry.grid(row=nbRow,column=1, sticky =E+W)
-    
+        entry.grid(row=nbRow,column=1,sticky= E+W)
+
+    def ClicWH(event):
+        X = event.x
+        Y = event.y
+        r = 10
+	CoordonneesWH.append('{longitude:' + str(X) + ',latitude:' + str(Y) + '}')
+        Canevas.create_rectangle(X-r, Y-r, X+r, Y+r, outline='black',fill='blue', tags='WH')
+	print str(CoordonneesWH)
+
+    def ClicDS(event):
+        X = event.x
+        Y = event.y
+        r = 10
+	CoordonneesDS.append('{longitude:' + str(X) + ',latitude:' + str(Y) + '}')
+        Canevas.create_rectangle(X-r, Y-r, X+r, Y+r, outline='black',fill='red', tags='DS')
+	print str(CoordonneesDS)
+
+    def EffacerWH():
+        # Efface la zone graphique 
+	print "toto"
+	CoordonneesWH[:] = []
+	for WH in Canevas.find_withtag("WH"):
+            Canevas.delete(WH)
+
+    def EffacerDS():
+	CoordonneesDS[:] = []
+	for DS in Canevas.find_withtag("DS"):
+            Canevas.delete(DS)
+
+    def EditWH(val):
+        Canevas.bind('<Button-1>',ClicWH)
+
+    def EditDS():
+        Canevas.bind('<Button-1>',ClicDS)
+
+    Largeur = 480
+    Hauteur = 320
+    CoordonneesWH = []
+    CoordonneesDS = []
     pp = pprint.PrettyPrinter(indent=4)
-
     root= Tk()
+    fields = ["aerianspace", "numberDrone", "averageSpeed", "failureFrequency", "numberStation", "batteriesPerStation", "chargingTime", "changingTime", "mode", "deliveryFrequency", "consumption", "maxCycle", "startAt", "startAt", "motorsNumber", "motorPrice", "propellersNumber", "propellerPrice", "droneList"]
+    count = 1
 
-    Label(root, text="Delivrone: configuration des parametres.").pack(anchor=W, padx=(2,0))
+    root.title('Initialization')
+
+    Label(root, text="Delivrone: configuration of parameters.").pack(anchor=W, padx=(2,0))
 
     form = Form(root, action =lambda data: messagebox.showinfo("form data",pp.pformat(data)))
     form.pack(expand=True, fill="both", ipadx=10, ipady=10)
-
-    fields = ["aerianspace", "numberDrone", "averageSpeed", "failureFrequency", "numberStation", "batteriesPerStation", "chargingTime", "changingTime", "mode", "deliveryFrequency", "consumption", "maxCycle", "startAt", "startAt", "motorsNumber", "motorPrice", "propellersNumber", "propellerPrice", "stationList", "droneList", "WarehouseList"]
-    count = 1
 
     for field in fields:
 	myField(form, field, count)
         count = count + 1
 
+    Label(root, text="Click on this window to place Warehouses and Drone stations").pack(anchor=W, padx=(2,0))
+    Canevas = Canvas(root, width = Largeur, height =Hauteur, bg ='white')
+    Canevas.bind('<Button-1>',ClicWH)
+        
+    Canevas.pack(padx =5, pady =5)
+    Button(root, text ='Edit WareHouses', command = EditWH).pack(side=LEFT,padx = 5,pady = 5)
+    Button(root, text ='Edit Stations', command = EditDS).pack(side=LEFT,padx = 5,pady = 5)
+    Button(root, text ='Delete Warehouses', command = EffacerWH).pack(side=LEFT,padx = 5,pady = 5)
+    Button(root, text ='Delete Stations', command = EffacerDS).pack(side=LEFT,padx = 5,pady = 5)
+    Button(root, text ='Quitter', command = root.destroy).pack(side=LEFT,padx=5,pady=5)
+
     Submit_Button(form, text="Submit").grid(row=count,column=1,sticky =E)
 
-    # It's possible to provide hidden data
-    """form.hidden_input["hidden_var1"] = "value1"
-    form.hidden_input["hidden_var2"] = "value2" """
-
-    # The fieldname attribute is necessary to provide data to action
-    """Label(form, text="Entry:").grid(row=2,column=0, sticky=E, pady=(8,0))
-    entry = Entry(form)
-    entry.fieldname = "entry"
-    entry.grid(row=2,column=1, sticky =E+W)
-    
-    Label(form, text="Checkbuttons:").grid(row=2,column=0, sticky=E, pady=(8,0))
-    column = Frame(form)
-    column.grid(row=3,column=1, sticky =E+W)
-
-    checkbutton0 = Checkbutton(column, text="Option 0")
-    checkbutton0.fieldname = "checkbutton0"
-    checkbutton0.pack(side=LEFT)
-
-    checkbutton1 = Checkbutton(column, text="Option 1")
-    checkbutton1.fieldname = "checkbutton1"
-    checkbutton1.pack(side=LEFT)
-    
-    checkbutton2 = Checkbutton(column, text="Option 2")
-    checkbutton2.fieldname = "checkbutton2"
-    checkbutton2.pack(side=LEFT)
-    
-    Label(form, text="Radiobuttons:").grid(row=4,column=0, sticky=E, pady=(8,0))
-    column = Frame(form)
-    column.grid(row=5,column=1, sticky =E+W)
-
-    # All radiobuttons require a variable
-    variable = StringVar()
-    radiobutton0 = Radiobutton(column, variable = variable, value="value0", text="Selection 0")
-    radiobutton0.fieldname = "radiobutton"
-    radiobutton0.pack(side=LEFT)
-    
-    radiobutton1 = Radiobutton(column, variable = variable, value="value1", text="Selection 1")
-    radiobutton0.fieldname = "radiobutton"
-    radiobutton1.pack(side=LEFT)
-    
-    Label(form, text="Text area:").grid(row=6,column=0, sticky=E, pady=(8,0))
-
-    text = Text(form, height=5)
-    text.fieldname = "text"
-    text.grid(row=7,column=1, sticky =E+W)
-
-    Label(form, text="Listbox:").grid(row=8,column=0, sticky=E, pady=(8,0))
-
-    listbox = Listbox(form)
-    listbox.fieldname = "listbox"
-    listbox.grid(row=9,column=1, sticky=W)
-
-    for item in ["one", "two", "three", "four"]:
-        listbox.insert("end", item)
-
-    Label(form, text="Combobox:").grid(row=10,column=0, sticky=E, pady=(8,0))
-
-    combobox = Combobox(form, values = ('X', 'Y', 'Z'), width=5)
-    combobox.fieldname = "combobox"
-    combobox.grid(row=11,column=1, sticky=W)"""
-    
     root.mainloop()
