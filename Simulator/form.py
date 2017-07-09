@@ -81,14 +81,20 @@ class Base_SubmitButton(object):
                 continue
 
             form_data[field_name] = field_value
-            form_data["WarehouseList"] = re.sub(r"[\[\]]", "", str(CoordonneesDS))
-            form_data["stationList"] = re.sub(r"[\[\]]", "", str(CoordonneesDS))
-		
+            form_data["WarehouseList"] = CoordonneesWH
+            form_data["stationList"] = CoordonneesDS
+	
+	form_data = str(form_data)	
+	form_data = re.sub(r"(\\')", "'", form_data)
+	form_data = re.sub(r"('\[)", "[", form_data)
+	form_data = re.sub(r"(\]')", "]", form_data)
+	form_data = re.sub(r"(\"\{)", "{", form_data)
+	form_data = re.sub(r"(\}\")", "}", form_data)
         form_action(form_data)
 
 	# Creating the json
         fichier = open("data.json", "w")
-        fichier.write(str(form_data))
+        fichier.write(form_data)
         fichier.close()
 
 class Form_Frame(tk.Frame, Base_Form):
@@ -143,7 +149,7 @@ if __name__== "__main__":
         X = event.x
         Y = event.y
         r = 10
-	CoordonneesWH.append('{longitude:' + str(X) + ',latitude:' + str(Y) + '}')
+	CoordonneesWH.append("{'longitude':'" + str(X) + "','latitude':'" + str(Y) + "'}")
         Canevas.create_rectangle(X-r, Y-r, X+r, Y+r, outline='black',fill='blue', tags='WH')
 	print str(CoordonneesWH)
 
@@ -151,7 +157,8 @@ if __name__== "__main__":
         X = event.x
         Y = event.y
         r = 10
-	CoordonneesDS.append('{longitude:' + str(X) + ',latitude:' + str(Y) + '}')
+	CoordonneesDS.append("{'longitude':'" + str(X) + "','latitude':'" + str(Y) + "'}")
+        Canevas.create_rectangle(X-r, Y-r, X+r, Y+r, outline='black',fill='blue', tags='WH')
         Canevas.create_rectangle(X-r, Y-r, X+r, Y+r, outline='black',fill='red', tags='DS')
 	print str(CoordonneesDS)
 
