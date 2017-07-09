@@ -32,10 +32,13 @@ for packet in packets:
  mission.save()
  drone = Drone.UpdateStatusByID(drone_id, "ACTIVE")"""
 
+packet = Packet.saveRandom(20)
 while (True) :
-    packet = Packet.saveRandom(20)
-    left_packet = Scheduler.randomAssignMission(1);
-    print(left_packet)
+    #packet = Packet.saveRandom(20)
+    left_packet = Scheduler.randomAssignMission(5);
+    #print("This is the list for which one we need to create missions")
+    #print(left_packet)
+    #break;
 
 #drone = Drone.FindIdByStatus("POWEROFF")
 #print(str(len(drone)))

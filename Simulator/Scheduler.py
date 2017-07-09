@@ -22,9 +22,11 @@ class Scheduler() :
         else :
             print("We are going to wait for" + str(time) + "seconds")
             sleep(time)
+
         packets = Packet.FindIdByStatus("Waiting");
         print(packets)
         packetList = []
+
         for packet in packets:
             print(packet[0])
             #i = 6;
@@ -35,16 +37,22 @@ class Scheduler() :
             drone_id = "0";
             drones = Drone.FindIdByStatus("STANDBY")
             if len(drones) >= 1 :
-                for drone in drones:
-                    drone_id = drone[0]
-                    drone_id = str(drone_id);
-                    print("we are going to assign this mission to drone id :" + str(drone_id))
-                    break
+                #print(" Hello this the lend :"+str(len(drones)))
+                print("VOILA LE DRONE ID " + str(drones[0][0]))
+                mission = Delivery("delivery" + j, "55", str(drones[0][0]), "2", str(packet[0]), "NOT STARTED");
+                mission.save()
+                drone = Drone.UpdateStatusByID(str(drones[0][0]), "ACTIVE")
+                Packet.UpdateStatusById(str(packet[0]), "Delivering")
+                #print("we are going to assign this mission to drone id :" + str(drones[0][0]))
+                #for drone in drones:
+                    #drone_id = drone[0]
+                    #drone_id = str(drone_id);
+                    #print("we are going to assign this mission to drone id :" + str(drones[0][0]))
+                    #goto end
             else :
+                print("Il n'y plus de drone dispo, on rajoute le packet à la queue")
                 packetList.append(packet)
+                Packet.UpdateStatusById(str(packet[0]),"Delivering")
+                print(packetList)
 
-            print("VOILA LE DRONE ID " + drone_id)
-            mission = Delivery("delivery" + j, "55", drone_id, "2", str(packet[0]), "NOT STARTED");
-            mission.save()
-            drone = Drone.UpdateStatusByID(drone_id, "ACTIVE")
-            return packetList
+        return packetList

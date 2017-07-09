@@ -101,13 +101,13 @@ class Drone(Thread) :
         status =django_status.index(status);
         status = str(status);
         conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
-        print("Opened database successfully");
+        #print("Opened database successfully");
         cursor = conn.cursor()
         # cursor.execute("UPDATE Delivery SET status=\'"+ status + "\' WHERE id=\'" + id + "\'");
         cursor.execute("UPDATE Drone SET status=? WHERE id=?", (status, id));
         conn.commit()
         cursor.close()
-        print("Operation done successfully");
+        #print("Operation done successfully");
 
     ##
     #	Recupere le niveau de charge du drone
