@@ -17,14 +17,10 @@ class Station:
 		self.failureFrequency = failureFrequency
 
 	def chargeNewBattery(self, battery):
-		log.info(TAG, "Station "+ self.name + " Ajout d'une nouvelle batterie en charge")  
+		log.info(TAG, "Station "+ self.name + " Ajout d'une nouvelle batterie en charge")
 	def addBatteryToChargedStorage(self, battery):
 		log.info(TAG, "Station " + self.name + " Ajout d'une nouvelle batterie disponible")
 
 	def createStock(self):
 		for i in range(0,numberBattery):
 			batteryList.append(Battery())
-
-
-
-

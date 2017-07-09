@@ -1,54 +1,24 @@
 # -*- coding: utf-8 -*-
-# script animation_balle.py
-# (C) Fabrice Sincère
-
-from tkinter import *
+import Tkinter as tk
 import math, random
-#from Simulator.Drone import *
-from Drone import Drone
-LARGEUR = 1000
-HAUTEUR = 500
-RAYON = 5  # rayon de la balle
-direction = [950,450,0]
-drone = Drone([10,10,0], 5)
-drone.setDirection(direction)
+from WorldState import WorldState
 
+DRONE_RADIUS = 10
+STATION_RADIUS = 15
 
-# Création de la fenêtre principale
-Mafenetre = Tk()
-Mafenetre.title("Delivrone")
+class Renderer(tk.Tk):
+    def __init__(self, canevasW, canevasH):
+        tk.Tk.__init__(self)
+        self.canevas = tk.Canvas(self, height=canevasH, width=canevasW)
+        self.canevas.pack()
+        self.updateCanevas()
 
-# Création d'un widget Canvas
-Canevas = Canvas(Mafenetre, height=HAUTEUR, width=LARGEUR, bg='white')
-Canevas.pack(padx=5, pady=5)
-
-# Création d'un objet graphique
-Balle = Canevas.create_oval(drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON, width=1, fill='green')
-
-destinationDisplay = Canevas.create_oval(direction[0] - RAYON, direction[1]  - RAYON, direction[0]  + RAYON, direction[1] + RAYON, width=1, fill='blue')
-
-i=0
-if not (drone.isOnTopOfDirection() and i == 0):
-    print(i)
-    i = 1
-
-    drone.start()
-
-
-def motion():
-    global i
-    print(i)
-
-
-
-    print("au suivant")
-    # affichage
-    Canevas.coords(Balle, drone.position[0] - RAYON, drone.position[1]  - RAYON, drone.position[0]  + RAYON, drone.position[1] + RAYON)
-
-    # mise à jour toutes les 50 ms
-    Mafenetre.after(50, motion)
-
-
-
-motion()
-Mafenetre.mainloop()
+    def updateCanevas(self):
+        self.canevas.delete("all")
+        for drone in WorldState.drones:
+            self.canevas.create_text(drone.position[0], drone.position[1] - 27, anchor=tk.CENTER, font=("Purisa", 9),text=drone.id)
+            self.canevas.create_oval(drone.position[0] - DRONE_RADIUS, drone.position[1] - DRONE_RADIUS, drone.position[0] + DRONE_RADIUS, drone.position[1] + DRONE_RADIUS, outline="black", fill="blue", width=2)
+        for station in WorldState.stations:
+            self.canevas.create_text(station.position[0], station.position[1] - 27, anchor=tk.CENTER, font=("Purisa", 9),text=station.name)
+            self.canevas.create_rectangle(station.position[0] - STATION_RADIUS, station.position[1] - STATION_RADIUS, station.position[0] + STATION_RADIUS, station.position[1] + STATION_RADIUS, outline="black", fill="red", width=2)
+        self.after(50, self.updateCanevas)

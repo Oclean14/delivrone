@@ -3,9 +3,9 @@
 		{
 			"name": "joker",
 			"homeLocation" : { "x": 10, "y":10 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.1,
-			"averageSpeed": 2,
+			"averageSpeed": 100,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -15,9 +15,9 @@
 		{
 			"name": "toto",
 			"homeLocation" : { "x": 200, "y":200 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.2,
-			"averageSpeed": 2,
+			"averageSpeed": 50,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -27,9 +27,9 @@
 		{
 			"name": "titi",
 			"homeLocation" : { "x": 600, "y": 10 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.5,
-			"averageSpeed": 2,
+			"averageSpeed": 75,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -39,9 +39,9 @@
 		{
 			"name": "tata",
 			"homeLocation" : {"x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.4,
-			"averageSpeed": 2,
+			"averageSpeed": 60,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -51,9 +51,9 @@
 		{
 			"name": "salameche",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.15,
-			"averageSpeed": 2,
+			"averageSpeed": 20,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -63,9 +63,9 @@
 		{
 			"name": "carapuce",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.2,
-			"averageSpeed": 2,
+			"averageSpeed": 25,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -75,7 +75,7 @@
 		{
 			"name": "bulbizarre",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.12,
 			"averageSpeed": 2,
 			"battery": {
@@ -87,7 +87,7 @@
 		{
 			"name": "aeronef",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.3,
 			"averageSpeed": 2,
 			"battery": {
@@ -99,7 +99,7 @@
 		{
 			"name": "boeing",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.1,
 			"averageSpeed": 2,
 			"battery": {
@@ -111,7 +111,7 @@
 		{
 			"name": "pegasus",
 			"homeLocation" : { "x": 10, "y":20 },
-			"position": { "x": 0, "y": 0 },
+			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.1,
 			"averageSpeed": 5,
 			"battery": {
@@ -124,7 +124,7 @@
 	"stations" : [
 		{
 			"name": "bamako",
-			"position": { "x": 20, "y": 20 },
+			"position": { "x": 100, "y": 100 },
 			"chargedBatteries": [
 				{
 					"lvl": 100,
@@ -185,7 +185,7 @@
 			"changeDuration": 1,
 			"failureFrequency": 0.1
 		},
-		
+
 		{
 			"name": "La paz",
 			"position": { "x": 200, "y": 200 },
@@ -224,7 +224,7 @@
 			"changeDuration": 1,
 			"failureFrequency": 0.1
 		},
-		
+
 		{
 			"name": "Toronto",
 			"position": { "x": 100, "y": 50 },
@@ -263,7 +263,7 @@
 			"changeDuration": 1,
 			"failureFrequency": 0.1
 		},
-		
+
 		{
 			"name": "New york",
 			"position": { "x": 200, "y": 600 },
@@ -292,7 +292,7 @@
 			"changeDuration": 1,
 			"failureFrequency": 0.1
 		},
-		
+
 		{
 			"name": "Paris",
 			"position": { "x": 300, "y":100 },
