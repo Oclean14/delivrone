@@ -1,5 +1,5 @@
 """Ce fichier permet de renseigner tous les parametres"""
-from drone import Drone
+from Drone import Drone
 from Battery import Battery
 from Log import Log
 #Aerianspace
@@ -88,7 +88,6 @@ WarehouseList = []
 # droneList = []
 # WarehouseList = []
 
-"""
 import json
 from pprint import pprint
 from Log import Log as log
@@ -96,7 +95,8 @@ from WorldState import WorldState
 from Drone import Drone
 from Battery import Battery
 from Station import Station
-
+from Renderer import Renderer
+from Scheduler import Scheduler
 TAG = "MAIN"
 log.flags = log.LOG_ALL_ENABLE
 # log test
@@ -115,9 +115,9 @@ drones = simu_cfg['drones']
 stations = simu_cfg['stations']
 
 for drone in drones:
-    battery = Battery(drone["battery"]["lvl"], drone["battery"]["maxCycle"], drone["battery"]["consumption"])
-    el = Drone(drone["name"], {'x': drone["homeLocation"]["x"], 'y': drone["homeLocation"]["y"]},
-               {'x': drone["position"]["x"], 'y': drone["position"]["y"]}, drone["failureFrequency"],
+    battery = Battery(drone["battery"]["maxCycle"], drone["battery"]["lvl"], drone["battery"]["consumption"])
+    el = Drone(drone["name"],(drone["homeLocation"]["x"], drone["homeLocation"]["y"]),
+               (drone["position"]["x"], drone["position"]["y"]), drone["position"]["z"], drone["failureFrequency"],
                drone["averageSpeed"], battery)
     WorldState.drones.append(el)
 
@@ -125,17 +125,17 @@ for station in stations:
     chargingBatteries = []
     chargedBatteries = []
     for battery in station["chargingBatteries"]:
-        chargingBatteries.append(Battery(battery["lvl"], battery["maxCycle"], battery["consumption"]))
+        chargingBatteries.append(Battery(battery["maxCycle"], battery["lvl"], battery["consumption"]))
 
     for battery in station["chargedBatteries"]:
-        chargedBatteries.append(Battery(battery["lvl"], battery["maxCycle"], battery["consumption"]))
+        chargedBatteries.append(Battery(battery["maxCycle"],battery["lvl"], battery["consumption"]))
 
-    el = Station(station["name"], {'x': station["position"]["x"], 'y': station["position"]["y"]}, chargingBatteries,
+    el = Station(station["name"], (station["position"]["x"], station["position"]["y"]), chargingBatteries,
                  chargedBatteries, station["storageCapacity"], station["chargingTime"], station["chargingSlots"],
                  station["changeDuration"], station["failureFrequency"])
-WorldState.stations.append(el)"""
+    WorldState.stations.append(el)
 
-drone = Drone(5, (10,20), (0,0),0, 0.2, 100.0, Battery(300,100,3))
-drone.start()
-drone.takeoff(10, 1)
-drone.goto((-100,-60))
+r = Renderer(800, 640)
+sch = Scheduler()
+sch.start()
+r.mainloop()

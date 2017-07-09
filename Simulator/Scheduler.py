@@ -1,11 +1,39 @@
+# -*- coding: utf-8 -*-
 from time import sleep
-from Simulator.Delivery import *
-from Simulator.Drone import *
-from Simulator.Packet import *
-
+from Delivery import *
+from Drone import *
+from Packet import *
+from WorldState import WorldState as ws
+from threading import Thread
+from Log import Log as l
 global i;
 
-class Scheduler() :
+
+def move_drone(drone, (x, y)):
+    drone.start()
+    drone.takeoff(1,1)
+    drone.goto((x, y))
+
+class Scheduler:
+
+    TAG = "SCHEDULER"
+
+    def start(self):
+        thread = Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()
+
+    def run(self):
+        l.info(Scheduler.TAG, "Start scheduler")
+        while True:
+            jobs = []
+            for drone in ws.drones:
+                x = random.randint(50, 800)
+                y = random.randint(50, 640)
+                thread = Thread(target=move_drone(drone, (x, y)))
+                jobs.append(thread)
+            for job in jobs:
+                job.start()
 
     def getRegularlyMissions(self):
         print("We are going to retrieve all NOT STARTED delivery every 20 seconds")
