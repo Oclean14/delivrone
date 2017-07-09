@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from time import sleep
+import math, random
+import sqlite3
 from threading import Thread
 from Battery import Battery
 from drone_state import DroneState
@@ -12,6 +14,19 @@ l.flags = l.LOG_ALL_ENABLE
 mutex = Lock()
 
 class Drone:
+	
+	global django_status;
+	django_status = [
+		"0",
+		"UNINIT",
+		"BOOT",
+		"CALIBRATING",
+		"STANDBY",
+		"ACTIVE",
+		"CRITICAL",
+		"EMERGENCY",
+		"POWEROFF",
+	]
 
 	TAG = "DRONE"
 
@@ -171,6 +186,31 @@ class Drone:
 		# takeoff again
 		if self.takeoff(takeoffSpeed) != 0:
 			return -1
+
+	@classmethod
+	def FindIdByStatus(self, status):
+		status = django_status.index(status);
+		status = str(status);
+		conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
+		cursor = conn.cursor()
+		cursor.execute("""SELECT id FROM Drone WHERE status=\'""" + status + """\'""")
+		packets = cursor.fetchall()
+		conn.close()
+		return packets
+
+	@classmethod
+	def UpdateStatusByID(self, id, status):
+		status = django_status.index(status);
+		status = str(status);
+		conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
+		# print("Opened database successfully");
+		cursor = conn.cursor()
+		# cursor.execute("UPDATE Delivery SET status=\'"+ status + "\' WHERE id=\'" + id + "\'");
+		cursor.execute("UPDATE Drone SET status=? WHERE id=?", (status, id));
+		conn.commit()
+		cursor.close()
+
+		# print("Operation done successfully");
 
 	##
 	#	Ajouter une nouvelle mission a effectuer
