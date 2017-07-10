@@ -1,1 +1,1 @@
-""" il sait où se situe chaque drone en temps réel pour répondre au Conductor"""
+""" il sait où se situe chaque drone en temps reel pour repondre au Conductor"""

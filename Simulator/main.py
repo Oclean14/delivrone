@@ -91,7 +91,7 @@ WarehouseList = []
 import json
 from pprint import pprint
 from Log import Log as log
-from WorldState import WorldState
+from WorldObjects import WorldState
 from Drone import Drone
 from Battery import Battery
 from Station import Station

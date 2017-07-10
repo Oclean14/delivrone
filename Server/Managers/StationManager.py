@@ -1,4 +1,4 @@
-"""connait en temps réel l'état de chaque station"""
+"""connait en temps reel l'etat de chaque station"""
 import sys
 sys.path.append("../WebApp_ORM/drone")
 from ../WebApp_ORM/drone.models

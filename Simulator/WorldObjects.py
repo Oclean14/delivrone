@@ -1,5 +1,5 @@
 
-class WorldState:
+class WorldObjects:
 	drones = []
 	stations = []
 		

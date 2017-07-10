@@ -3,10 +3,10 @@ import sqlite3
 
 class Delivery() :
 
-    """ Classe définissant une delivery (mission) caractérisée par :"""
+    """ Classe definissant une delivery (mission) caracterisee par :"""
     #- son nom
     #- la position de destination
-    #- l'id du drone auquel est affecté la mission courante
+    #- l'id du drone auquel est affecte la mission courante
     #- l'id du stock d'ou vient le colis
     #- l'id du colis
     #- le statut de la mission

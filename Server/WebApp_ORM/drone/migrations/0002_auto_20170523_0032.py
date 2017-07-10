@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='drone',
             name='status',
-            field=multiselectfield.db.fields.MultiSelectField(choices=[(1, 'En Repos'), (2, 'En Mission'), (3, 'En Recharge'), (4, 'Détruit'), (5, 'Disparu')], max_length=9, null=True),
+            field=multiselectfield.db.fields.MultiSelectField(choices=[(1, 'En Repos'), (2, 'En Mission'), (3, 'En Recharge'), (4, 'Detruit'), (5, 'Disparu')], max_length=9, null=True),
         ),
     ]

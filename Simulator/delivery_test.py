@@ -1,8 +1,8 @@
-from Simulator.Packet import *
-from Simulator.Delivery import *
-from Simulator.Drone import *
-from Simulator.Scheduler import *
-from Simulator.Packet import *
+from Packet import *
+from Delivery import *
+from Drone import *
+from Scheduler import *
+from Packet import *
 
 #global drone_id;
 #packet = Packet("TOTO", "Waiting", "15","2");

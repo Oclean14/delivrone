@@ -3,7 +3,7 @@ from time import sleep
 from Delivery import *
 from Drone import *
 from Packet import *
-from WorldState import WorldState as ws
+from WorldObjects import WorldObjects as ws
 from threading import Thread
 from Log import Log as l
 global i;
@@ -79,7 +79,7 @@ class Scheduler:
                     #print("we are going to assign this mission to drone id :" + str(drones[0][0]))
                     #goto end
             else :
-                print("Il n'y plus de drone dispo, on rajoute le packet à la queue")
+                print("Il n'y plus de drone dispo, on rajoute le packet e la queue")
                 packetList.append(packet)
                 Packet.UpdateStatusById(str(packet[0]),"Delivering")
                 print(packetList)
