@@ -1,7 +1,8 @@
 """Ce fichier permet de renseigner tous les parametres"""
-from Drone import Drone
-from Battery import Battery
-from Log import Log
+from Simulator.Drone import Drone
+from Simulator.Battery import Battery
+#from Log import Log
+import log as l
 #Aerianspace
 
 aerianSpace = []
@@ -91,12 +92,12 @@ WarehouseList = []
 import json
 from pprint import pprint
 from Log import Log as log
-from WorldState import WorldState
-from Drone import Drone
-from Battery import Battery
-from Station import Station
-from Renderer import Renderer
-from Scheduler import Scheduler
+from Simulator.WorldState import WorldState
+from Simulator.Drone import Drone
+from Simulator.Battery import Battery
+from Simulator.Station import Station
+from Simulator.Renderer import Renderer
+from Simulator.Scheduler import Scheduler
 TAG = "MAIN"
 log.flags = log.LOG_ALL_ENABLE
 # log test

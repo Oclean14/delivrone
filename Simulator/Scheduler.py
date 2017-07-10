@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from time import sleep
-from Delivery import *
-from Drone import *
-from Packet import *
-from WorldState import WorldState as ws
+from Simulator.Delivery import *
+from Simulator.Drone import *
+from Simulator.Packet import *
+from Simulator.WorldState import WorldState as ws
 from threading import Thread
-from Log import Log as l
+from Simulator.Log import Log as l
+#import log
 global i;
 
 
-def move_drone(drone, (x, y)):
+def move_drone(drone, x, y):
     drone.start()
     drone.takeoff(1,1)
     drone.goto((x, y))
@@ -30,7 +31,7 @@ class Scheduler:
             for drone in ws.drones:
                 x = random.randint(50, 800)
                 y = random.randint(50, 640)
-                thread = Thread(target=move_drone(drone, (x, y)))
+                thread = Thread(target=move_drone(drone, x, y))
                 jobs.append(thread)
             for job in jobs:
                 job.start()

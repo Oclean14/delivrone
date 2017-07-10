@@ -3,14 +3,17 @@ from time import sleep
 import math, random
 import sqlite3
 from threading import Thread
-from Battery import Battery
-from drone_state import DroneState
-from Log import Log as l
+from Simulator.Battery import Battery
+from Simulator.drone_state import DroneState
+from Simulator.Log import Log as l
+#import log as l
 from threading import Thread, Lock
 from utils import *
 
 #from Simulator import main
-l.flags = l.LOG_ALL_ENABLE
+from Simulator.utils import *
+
+#l.flags = l.LOG_ALL_ENABLE
 
 class Drone:
 	
@@ -51,15 +54,15 @@ class Drone:
 	def consumeBattery(self):
 		while True:
 			if self.state & DroneState.RUNNING:
-				l.info(Drone.TAG, "Battery consumption lvl: " + str(self.battery.chargePercentage))
+				#l.info(Drone.TAG, "Battery consumption lvl: " + str(self.battery.chargePercentage))
 				self.battery.use()
 				# percentage 0 attery
 				if self.battery.chargePercentage <= 0:
 					if self.state & DroneState.IN_AIR:
-						l.error(Drone.TAG, "WARNING CRASH !!!")
+						#l.error(Drone.TAG, "WARNING CRASH !!!")
 						self.state = DroneState.OUT_OF_ORDER | DroneState.ON_LAND
 					else:
-						l.info(Drone.TAG, "WARNING NO BATTERY")
+						#l.info(Drone.TAG, "WARNING NO BATTERY")
 						self.state = DroneState.ON_LAND | DroneState.OFF
 					break
 			sleep(1)
@@ -176,7 +179,8 @@ class Drone:
 	def removePacketFromWarehouse(self, landingSpeed, takeoffSpeed, packet):
 		# land to retrieve the packe
 		if self.land(landingSpeed) != 0:
-			l.error(TAG, "Impossible to land to retrieve the packet")
+			#l.error(TAG, "Impossible to land to retrieve the packet")
+			print("Impossible to land to retrieve the packet")
 			return -1
 		self.packet = packet
 		# takeoff again

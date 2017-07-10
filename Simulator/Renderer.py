@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import Tkinter as tk
+#import Tkinter as tk
+import tkinter as tk
 import math, random
-from WorldState import WorldState
+from Simulator.WorldState import WorldState
 
 DRONE_RADIUS = 10
 STATION_RADIUS = 15
