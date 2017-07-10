@@ -8,9 +8,8 @@ from drone_state import DroneState
 from Log import Log as l
 from threading import Thread, Lock
 from utils import *
+from parametersModel import oneSecond
 
-#in seconds
-WAIT_PERIOD = 1
 #from Simulator import main
 l.flags = l.LOG_ALL_ENABLE
 
@@ -45,6 +44,7 @@ class Drone:
 		self.velocity = velocity
 		self.packet = None
 		self.deliveryList = []
+		self.currentDelivery = None
 		thread = Thread(target=self.consumeBattery, args=())
 		thread.daemon = True                            # Daemonize thread
 		thread.start()
@@ -64,7 +64,7 @@ class Drone:
 						l.info(Drone.TAG, "WARNING NO BATTERY")
 						self.state = DroneState.ON_LAND | DroneState.OFF
 					break
-			sleep(WAIT_PERIOD)
+			sleep(1 * oneSecond)
 
 	def start(self):
 		if self.battery != None and self.state & DroneState.OFF and self.state & DroneState.OUT_OF_ORDER == 0:
@@ -106,7 +106,7 @@ class Drone:
 			while self.altitude > 0 and self.state & DroneState.RUNNING:
 				self.altitude = self.altitude - speed
 				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " landing altitude = " + str(self.altitude))
-				sleep(WAIT_PERIOD)
+				sleep(oneSecond)
 
 			if self.altitude > 0:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
@@ -132,7 +132,7 @@ class Drone:
 			while self.altitude < altitude and self.state & DroneState.RUNNING:
 				self.altitude = self.altitude + speed
 				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " taking off altitude = " + str(self.altitude))
-				sleep(WAIT_PERIOD)
+				sleep(1 * oneSecond)
 
 			if self.altitude < altitude:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
@@ -152,7 +152,7 @@ class Drone:
 	#TODO: implement the goto method
 	def goto(self, destPoint):
 		if self.state & DroneState.RUNNING and self.state & DroneState.IN_AIR:
-			self.state = DroneState.FLYING | DroneState.RUNNING | DroneState.IN_AIR
+			self.state = DroneState.FLYING | DroneState.RUNNING | DroneState.IN_AIR | (DroneState.DELYVERING if self.currentDelivery == None else 0)
 			startPos = self.position
 			distance = dist(self.position, destPoint)
 			elapsed = 0.01
@@ -164,7 +164,7 @@ class Drone:
 			while(dist(startPos, self.position) < distance and self.state & DroneState.RUNNING):
 				#l.info(Drone.TAG, " direction vect : " + str(vecDir))
 				self.position = vec2d_add(vecDir, self.position)
-				sleep(0.05)
+				sleep(0.05*oneSecond)
 				#l.info(Drone.TAG, " drone position : " + str(self.position))
 			if dist(startPos, self.position) < distance:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
@@ -185,35 +185,16 @@ class Drone:
 		if self.takeoff(takeoffSpeed) != 0:
 			return -1
 
-	@classmethod
-	def FindIdByStatus(self, status):
-		status = django_status.index(status);
-		status = str(status);
-		conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
-		cursor = conn.cursor()
-		cursor.execute("""SELECT id FROM Drone WHERE status=\'""" + status + """\'""")
-		packets = cursor.fetchall()
-		conn.close()
-		return packets
-
-	@classmethod
-	def UpdateStatusByID(self, id, status):
-		status = django_status.index(status);
-		status = str(status);
-		conn = sqlite3.connect('..\Server\WebApp_ORM\drone.db')
-		# print("Opened database successfully");
-		cursor = conn.cursor()
-		# cursor.execute("UPDATE Delivery SET status=\'"+ status + "\' WHERE id=\'" + id + "\'");
-		cursor.execute("UPDATE Drone SET status=? WHERE id=?", (status, id));
-		conn.commit()
-		cursor.close()
-
-		# print("Operation done successfully");
-
-	##
-	#	Ajouter une nouvelle mission a effectuer
-	def addDelivery(self,delivery):
-		self.deliveryList.append(delivery)
+	def executeDelivery(self, delivery):
+		l.info(Drone.TAG, "Delivering packet : " + delivery.packet.name)
+		self.currentDelivery = delivery
+		self.followPoints(self.currentDelivery.path)
+		if self.currentDelivery.path[len(self.currentDelivery.path) - 1] == self.position:
+			l.info(Drone.TAG, "Packet delivered : " + delivery.packet.name)
+			self.state = DroneState.IN_AIR | DroneState.IDLE | DroneState.RUNNING
+		else:
+			l.info(Drone.TAG, "Delivery failed for packet " + delivery.packet.name)
+		self.currentDelivery = None
 
 	##
 	# Suit les points fournit par un eventuelle calculateur de vol

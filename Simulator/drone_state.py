@@ -6,8 +6,7 @@ class DroneState:
     FLYING = 1 << 4
     RUNNING = 1 << 5
     IN_AIR = 1 << 6
-    SHIPPING = 1 << 7
-    DELYVERING = 1 << 8
-    WAITING_FOR_BATTERY_EXCH = 1 << 9
-    OFF = 1 << 10
-    ON_LAND = 1 << 11
+    DELYVERING = 1 << 7
+    WAITING_FOR_BATTERY_EXCH = 1 << 8
+    OFF = 1 << 9
+    ON_LAND = 1 << 10

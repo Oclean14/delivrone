@@ -29,7 +29,7 @@ maxCycle = 300 # nombre de cycle de rechargement des batteries
 
 #Time
 startAt = "100416052000"
-oneSecond = 0.0001
+oneSecond = 1
 
 #Stock in Warehouse
 motorsNumber = 60

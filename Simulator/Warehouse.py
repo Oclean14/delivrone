@@ -1,5 +1,4 @@
 
-
 class Warehouse:
     def __init__(self,position,motorNumber,propellerNumber):
        self.motorNumber = motorNumber

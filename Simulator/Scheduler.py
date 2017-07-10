@@ -6,14 +6,15 @@ from Packet import *
 from WorldObjects import WorldObjects as ws
 from threading import Thread
 from Log import Log as l
-global i;
+from drone_state import DroneState
+global i
 
 
-def move_drone(drone, (x, y)):
+def move_drone(drone, delivery):
     print "move drone"
     drone.start()
     drone.takeoff(1,1)
-    drone.goto((x, y))
+    drone.executeDelivery(delivery)
 
 class Scheduler:
 
@@ -27,10 +28,21 @@ class Scheduler:
     def run(self):
         jobs = []
         for drone in ws.drones:
-            x = random.randint(50, 800)
-            y = random.randint(50, 640)
-            thread = Thread(target=move_drone, args=(drone, (x, y)))
-            jobs.append(thread)
+            if not drone.state & DroneState.DELYVERING:
+                #test
+                path = []
+                w = random.randint(1, 3)
+                for i in range(0, 4):
+                    x = random.randint(50, 800)
+                    y = random.randint(50, 640)
+                    path.append((x,y))
+                l.debug(Scheduler.TAG, str(path))
+                name = "delivery"
+                packet = Packet(name, w)
+                delivery = Delivery(name, packet, path)
+
+                thread = Thread(target=move_drone, args=(drone, delivery))
+                jobs.append(thread)
 
         for job in jobs:
             job.start()
