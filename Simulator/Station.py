@@ -1,12 +1,9 @@
 import math, random
-import time
 from Battery import *
 from Log import Log as log
 import math, random
 from queue import *
 import time
-from Battery import *
-from Log import Log as log
 from ChargerThread import *
 from BatteryChangerThread import *
 
@@ -64,9 +61,3 @@ class Station:
 
 	def getNextTimeBatteryReady(self):
 		a=0
-
-
-
-
-
-

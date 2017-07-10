@@ -1,15 +1,10 @@
 import random
-
 import sys
-
 from threading import Thread
-
 import time
-from .Station import *
-from .main import *
+from main import oneSecond
+
 class Charger(Thread):
-
-
     """Thread"""
 
     def __init__(self, associatedStation):
@@ -24,5 +19,3 @@ class Charger(Thread):
                 if not battery.isUsable():
                     self.associatedStation.unusableBatteryList.append(battery)
             time.sleep(60 * oneSecond)
-
-

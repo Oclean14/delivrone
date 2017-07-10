@@ -1,6 +1,5 @@
 import math, random
 import time
-from .main import *
 
 class Battery:
 	__id = 0
@@ -11,13 +10,13 @@ class Battery:
 		self.chargePercentage = chargePercentage
 		self.consumption = consumption
 		self.chargeLevel = 100
-		
+
 	def use(self):
 		self.chargePercentage = self.chargePercentage - self.consumption
 
 	def getChargePercentage(self):
 		return self.chargePercentage
-		
+
 	def charge(self, delta):
 		self.chargeLevel += delta
 
