@@ -146,7 +146,7 @@ def deplacement():
     conn.close()
 """
 
-# Fonction quand le thread du daemon est lancé
+# Fonction quand le thread du daemon est lance
 def run():
     print("Processing... press q key to exit")
     #traitement ici

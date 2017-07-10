@@ -5,10 +5,10 @@ from Log import Log as log
 import math, random
 from queue import *
 import time
-from .Battery import *
-from .Log import Log as log
-from .ChargerThread import *
-from .BatteryChangerThread import *
+from Battery import *
+from Log import Log as log
+from ChargerThread import *
+from BatteryChangerThread import *
 
 class Station:
 	TAG = "STATION"
@@ -52,7 +52,7 @@ class Station:
 
 	def getAnticipatedBatteryNumber(self):
 		i = 0
-		# comptage du nombre de reservation non traitées
+		# comptage du nombre de reservation non traitees
 		for reservation in self.reservationQueue:
 			if reservation[0] == 0:
 				i = i + 1

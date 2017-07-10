@@ -48,14 +48,14 @@ print
 print (" DRONE VERSION: %s" % vehicle.version)  # Version de l'autopilot
 print (" LOCATION CAPABILITIES: %s" % vehicle.capabilities)
 print (" LOCATION GLOBAL FRAME: %s" % vehicle.location.global_frame ) # position gps global. Altitude par rapport au niveau de la mer (MSL)
-print (" LOCATION GLOBAL RELATIVE FRAME: %s" % vehicle.location.global_relative_frame ) # position par rapport à la base (à configurer comme on veut)
+print (" LOCATION GLOBAL RELATIVE FRAME: %s" % vehicle.location.global_relative_frame ) # position par rapport e la base (e configurer comme on veut)
 print (" ATTITUDE: %s" % vehicle.attitude ) # Pitch, Roll, Yaw
 print (" VELOCITY: %s" % vehicle.velocity)  # Vitesse vx, vy, vz
 print (" GIMBAL: %s" % vehicle.gimbal)
 print (" BATTERY: %s" % vehicle.battery ) # tension de la batterie en millivolt / niveau de batterie restantes / alimentation en ampere si l'autopilot supporte
-print (" RANGEFINDER: %s" % vehicle.rangefinder ) # Mesure du télémètre
+print (" RANGEFINDER: %s" % vehicle.rangefinder ) # Mesure du telemètre
 print (" EKF OK: %s" % vehicle.ekf_ok)
-print (" LAST HEARTBEAT: %s" % vehicle.last_heartbeat)  # le dernier message envoyé par le drone UPTIME
+print (" LAST HEARTBEAT: %s" % vehicle.last_heartbeat)  # le dernier message envoye par le drone UPTIME
 print (" HOME LOCATION: %s" % vehicle.home_location)  # La position de la base
 
 """
@@ -78,8 +78,8 @@ print (" ARMED: %s" % vehicle.armed)
 print (" MODE: %s" % vehicle.mode)
 
 vehicle.simple_takeoff(altitude)
-vehicle.simple_goto(gotoLocation, 20, 10)  # POint d'arrivée, vitesse en prenant en compte le vent, vitesse
-# récupère les commandes à exécuter sur le vehicule
+vehicle.simple_goto(gotoLocation, 20, 10)  # POint d'arrivee, vitesse en prenant en compte le vent, vitesse
+# recupère les commandes e executer sur le vehicule
 # cmds = vehicle.commands 
 # cmds.download()
 # cmds.wait_ready()

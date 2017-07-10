@@ -122,7 +122,7 @@ class Station(models.Model):
     anticipated_charged_battery = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return "\nNom : {0}, Longitude : {1}, Latitude : {2}, Nombre de batteries chargées : {3}".format(self.name, self.long, self.lat, self.num_charged_battery)
+        return "\nNom : {0}, Longitude : {1}, Latitude : {2}, Nombre de batteries chargees : {3}".format(self.name, self.long, self.lat, self.num_charged_battery)
 
     class Meta:
         managed = True
@@ -137,7 +137,7 @@ class Charginglog(models.Model):
     timestamp_value = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "\n Drone : {0}, Station : {1}, Date de création : {2}, Timestamp : {3}".format(self.drone_id, self.station_id, self.creation_date, self.timestamp_value)
+        return "\n Drone : {0}, Station : {1}, Date de creation : {2}, Timestamp : {3}".format(self.drone_id, self.station_id, self.creation_date, self.timestamp_value)
 
     class Meta:
         managed = True
