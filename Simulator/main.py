@@ -98,7 +98,7 @@ from Station import Station
 from Renderer import Renderer
 from Scheduler import Scheduler
 TAG = "MAIN"
-log.flags = log.LOG_ALL_ENABLE
+log.flags = 0
 # log test
 
 log.info(TAG, "Simulator started");

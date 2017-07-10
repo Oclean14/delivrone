@@ -5,7 +5,7 @@
 			"homeLocation" : { "x": 10, "y":10 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.1,
-			"averageSpeed": 100,
+			"averageSpeed": 5,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -17,7 +17,7 @@
 			"homeLocation" : { "x": 200, "y":200 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.2,
-			"averageSpeed": 50,
+			"averageSpeed": 5,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -29,7 +29,7 @@
 			"homeLocation" : { "x": 600, "y": 10 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.5,
-			"averageSpeed": 75,
+			"averageSpeed": 5,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -41,7 +41,7 @@
 			"homeLocation" : {"x": 10, "y":20 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.4,
-			"averageSpeed": 60,
+			"averageSpeed": 5,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -53,7 +53,7 @@
 			"homeLocation" : { "x": 10, "y":20 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.15,
-			"averageSpeed": 20,
+			"averageSpeed": 5,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,
@@ -65,7 +65,7 @@
 			"homeLocation" : { "x": 10, "y":20 },
 			"position": { "x": 0, "y": 0, "z": 0},
 			"failureFrequency": 0.2,
-			"averageSpeed": 25,
+			"averageSpeed": 20,
 			"battery": {
 					"lvl": 100,
 					"consumption": 3,

@@ -9,11 +9,13 @@ from Log import Log as l
 from threading import Thread, Lock
 from utils import *
 
+#in seconds
+WAIT_PERIOD = 1
 #from Simulator import main
 l.flags = l.LOG_ALL_ENABLE
 
 class Drone:
-	
+
 	global django_status;
 	django_status = [
 		"0",
@@ -62,7 +64,7 @@ class Drone:
 						l.info(Drone.TAG, "WARNING NO BATTERY")
 						self.state = DroneState.ON_LAND | DroneState.OFF
 					break
-			sleep(1)
+			sleep(WAIT_PERIOD)
 
 	def start(self):
 		if self.battery != None and self.state & DroneState.OFF and self.state & DroneState.OUT_OF_ORDER == 0:
@@ -104,7 +106,7 @@ class Drone:
 			while self.altitude > 0 and self.state & DroneState.RUNNING:
 				self.altitude = self.altitude - speed
 				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " landing altitude = " + str(self.altitude))
-				sleep(1)
+				sleep(WAIT_PERIOD)
 
 			if self.altitude > 0:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
@@ -130,7 +132,7 @@ class Drone:
 			while self.altitude < altitude and self.state & DroneState.RUNNING:
 				self.altitude = self.altitude + speed
 				l.info(Drone.TAG, "Drone ID " + str(self.id) +  " taking off altitude = " + str(self.altitude))
-				sleep(1)
+				sleep(WAIT_PERIOD)
 
 			if self.altitude < altitude:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
@@ -157,13 +159,13 @@ class Drone:
 			l.debug(Drone.TAG, "Distance: " + str(distance))
 			vecDir = vec2d_normalize(vec2d_sub(destPoint, self.position))
 			vecDir = vec2d_multiply_scalar(vecDir, self.velocity)
-			vecDir = vec2d_multiply_scalar(vecDir, elapsed)
+			#vecDir = vec2d_multiply_scalar(vecDir, elapsed)
 
 			while(dist(startPos, self.position) < distance and self.state & DroneState.RUNNING):
-				l.info(Drone.TAG, " direction vect : " + str(vecDir))
+				#l.info(Drone.TAG, " direction vect : " + str(vecDir))
 				self.position = vec2d_add(vecDir, self.position)
-				l.info(Drone.TAG, " drone position : " + str(self.position))
-				
+				sleep(0.05)
+				#l.info(Drone.TAG, " drone position : " + str(self.position))
 			if dist(startPos, self.position) < distance:
 				l.error(Drone.TAG, "NO ENERGY CRASHING")
 				return -1

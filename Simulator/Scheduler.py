@@ -10,9 +10,11 @@ global i;
 
 
 def move_drone(drone, (x, y)):
+    print "move drone"
     drone.start()
     drone.takeoff(1,1)
     drone.goto((x, y))
+    #drone.land()
 
 class Scheduler:
 
@@ -24,16 +26,15 @@ class Scheduler:
         thread.start()
 
     def run(self):
-        l.info(Scheduler.TAG, "Start scheduler")
-        while True:
-            jobs = []
-            for drone in ws.drones:
-                x = random.randint(50, 800)
-                y = random.randint(50, 640)
-                thread = Thread(target=move_drone(drone, (x, y)))
-                jobs.append(thread)
-            for job in jobs:
-                job.start()
+        jobs = []
+        for drone in ws.drones:
+            x = random.randint(50, 800)
+            y = random.randint(50, 640)
+            thread = Thread(target=move_drone, args=(drone, (x, y)))
+            jobs.append(thread)
+
+        for job in jobs:
+            job.start()
 
     def getRegularlyMissions(self):
         print("We are going to retrieve all NOT STARTED delivery every 20 seconds")
