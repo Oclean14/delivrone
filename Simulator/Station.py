@@ -1,7 +1,6 @@
 import math, random
 from Battery import *
 from Log import Log as log
-import math, random
 from queue import *
 import time
 from ChargerThread import *
@@ -30,9 +29,9 @@ class Station:
 		self.changeDuration = changeDuration
 		self.failureFrequency = failureFrequency
 		charger = Charger(self)
-		charger.run()
+		charger.start()
 		changer = BatteryChangerThread(self)
-		changer.run()
+		changer.start()
 
 	def putDroneInQueue(self, drone_id):
 		self.droneQueue.append([0,drone_id])

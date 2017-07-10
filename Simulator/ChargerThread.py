@@ -2,7 +2,7 @@ import random
 import sys
 from threading import Thread
 import time
-from main import oneSecond
+oneSecond = 0.0001
 
 class Charger(Thread):
     """Thread"""
