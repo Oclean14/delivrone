@@ -5,4 +5,3 @@ class Warehouse:
        self.motorNumber = motorNumber
        self.propellerNumber = propellerNumber
        self.position = position
-

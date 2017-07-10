@@ -2,7 +2,7 @@ import random
 import sys
 from threading import Thread
 import time
-oneSecond = 0.0001
+import parametersModel
 
 class Charger(Thread):
     """Thread"""

@@ -14,7 +14,6 @@ def move_drone(drone, (x, y)):
     drone.start()
     drone.takeoff(1,1)
     drone.goto((x, y))
-    #drone.land()
 
 class Scheduler:
 
