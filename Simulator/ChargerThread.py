@@ -2,7 +2,7 @@ import random
 import sys
 from threading import Thread
 import time
-import parametersModel
+from parametersModel import *
 
 class Charger(Thread):
     """Thread"""

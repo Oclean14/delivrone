@@ -7,45 +7,75 @@ from WorldObjects import WorldObjects as ws
 from threading import Thread
 from Log import Log as l
 from drone_state import DroneState
+from parametersModel import *
+from utils import dist
 global i
 
 
-def move_drone(drone, delivery):
-    print "move drone"
+def deliveryActivity(drone, delivery):
     drone.start()
     drone.takeoff(1,1)
     drone.executeDelivery(delivery)
 
 class Scheduler:
-
+    FREQ_GEN_DELIVERY = 2
     TAG = "SCHEDULER"
+    def __init__(self):
+        self.deliveries = []
 
     def start(self):
-        thread = Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()
+        runThread = Thread(target=self.run, args=())
+        deliveryThread = Thread(target=self.generateDelivery, args=())
+        runThread.daemon = True                            # Daemonize thread
+        deliveryThread.daemon = True
+        runThread.start()
+        deliveryThread.start()
+
+    def generateDelivery(self):
+        while True:
+            print "Generate delivery"
+            path = []
+            weight = random.uniform(1.5, 3.2)
+            x = random.randint(50, 800)
+            y = random.randint(50, 640)
+            path.append((x,y))
+            name = "delivery"
+            packet = Packet(name, weight)
+            delivery = Delivery(name, packet, path)
+            self.deliveries.append(delivery)
+            sleep(Scheduler.FREQ_GEN_DELIVERY * oneSecond)
+
+    def predict(self, drone,destPoint, time):
+        vecDir = vec2d_normalize(vec2d_sub(destPoint, drone.position))
+        vecDir = vec2d_multiply_scalar(vecDir, drone.velocity)
+        predictPosition = vec2d_add(drone.position, vec2d_multiply_scalar(vecDir, time / Drone.MOVE_UPDATE_FREQ))
+        predictBat =  drone.battery.chargePercentage - ((Drone.CONSUME_BATTERY_FREQ / time) * drone.battery.consumption)
+        return (predictPosition, predictBat)
 
     def run(self):
-        jobs = []
+        while True:
+            jobs = []
+            sleep(Scheduler.FREQ_GEN_DELIVERY * oneSecond)
+            if self.deliveries:
+                    delivery = self.deliveries.pop()
+                    drone = self.chooseDroneToExecuteMission(delivery.path[0])
+                    print str(self.predict(drone ,delivery.path[0],  10))
+                    job = Thread(target=deliveryActivity, args=(drone, delivery))
+                    jobs.append(job)
+
+            for job in jobs:
+                job.start()
+
+    def chooseDroneToExecuteMission(self, destPoint):
+        noteDroneActuel=0.0
+        noteDronePrecedent=0.0
+        choosedDrone=ws.drones[0]
         for drone in ws.drones:
             if not drone.state & DroneState.DELYVERING:
-                #test
-                path = []
-                w = random.randint(1, 3)
-                for i in range(0, 4):
-                    x = random.randint(50, 800)
-                    y = random.randint(50, 640)
-                    path.append((x,y))
-                l.debug(Scheduler.TAG, str(path))
-                name = "delivery"
-                packet = Packet(name, w)
-                delivery = Delivery(name, packet, path)
-
-                thread = Thread(target=move_drone, args=(drone, delivery))
-                jobs.append(thread)
-
-        for job in jobs:
-            job.start()
+                noteDroneActuel = drone.battery.chargePercentage / dist(drone.position, destPoint)
+                if noteDroneActuel > noteDronePrecedent:
+                    choosedDrone = drone
+        return choosedDrone
 
     def getRegularlyMissions(self):
         print("We are going to retrieve all NOT STARTED delivery every 20 seconds")
