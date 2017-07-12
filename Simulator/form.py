@@ -222,10 +222,10 @@ class PageTwo(tk.Frame):
             self.Canevas.delete(DS)
 
     def EditWH(self):
-        self.Canevas.bind('<Button-1>',ClicWH)
+        self.Canevas.bind('<Button-1>',self.ClicWH)
 
     def EditDS(self):
-        self.Canevas.bind('<Button-1>',ClicDS)
+        self.Canevas.bind('<Button-1>',self.ClicDS)
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
